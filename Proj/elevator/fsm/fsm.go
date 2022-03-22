@@ -19,7 +19,7 @@ func Fsm_init() {
 }
 
 // var DoorTimer = time.NewTimer(time.Duration(3 * time.Second))
-var Obstruction bool = false
+
 var PrevDir MotorDirection
 
 func GetFunctionname(i interface{}) string {
@@ -118,6 +118,9 @@ func Fsm_onDoorTimeout() {
 
 	switch Elevator1.Behaviour {
 	case EB_DoorOpen:
+		// if Obstruction {
+		// 	break
+		// }
 		var a Action
 		a = a.Requests_nextAction(Elevator1)
 		Elevator1.Dirn = a.Dirn
@@ -126,25 +129,16 @@ func Fsm_onDoorTimeout() {
 		case EB_DoorOpen:
 			//timer_start(elevator.Config.DoorOpenDuration_s)
 			DoorTimer.Reset(3 * time.Second)
-			fmt.Printf("Timer finished3")
 
 			Elevator1 = Requests_clearAtCurrentFloor(Elevator1)
 			setAllLights(Elevator1)
 			break
 		case EB_Moving:
 			SetDoorOpenLamp(false)
-			if Obstruction {
-				PrevDir = Elevator1.Dirn
-			} else {
-				SetMotorDirection(Elevator1.Dirn)
-			}
+			SetMotorDirection(Elevator1.Dirn)
 		case EB_Idle:
 			SetDoorOpenLamp(false)
-			if Obstruction {
-				PrevDir = Elevator1.Dirn
-			} else {
-				SetMotorDirection(Elevator1.Dirn)
-			}
+			SetMotorDirection(Elevator1.Dirn)
 			break
 		}
 

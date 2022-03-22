@@ -12,6 +12,8 @@ type Action struct {
 	Behaviour ElevatorBehaviour
 }
 
+var Obstruction bool = false
+
 func Requests_above(e Elevator) int {
 	for f := e.Floor + 1; f < N_FLOORS; f++ {
 		for btn := 0; btn < N_BUTTONS; btn++ {
@@ -62,7 +64,7 @@ func (a Action) Requests_nextAction(e Elevator) Action {
 			a.Dirn = MD_Stop
 			a.Behaviour = EB_Idle
 		}
-		return a
+		break
 
 	case MD_Down:
 		if Requests_above(e) == 1 {
@@ -78,7 +80,7 @@ func (a Action) Requests_nextAction(e Elevator) Action {
 			a.Dirn = MD_Stop
 			a.Behaviour = EB_Idle
 		}
-		return a
+		break
 
 	case MD_Stop:
 		if Requests_above(e) == 1 {
@@ -87,20 +89,24 @@ func (a Action) Requests_nextAction(e Elevator) Action {
 		} else if Requests_below(e) == 1 {
 			a.Dirn = MD_Down
 			a.Behaviour = EB_Moving
-		} else if Requests_here(e) == 1 {
+		} else if Requests_here(e) == 1 || e.Obstruction {
 			a.Dirn = MD_Stop
 			a.Behaviour = EB_DoorOpen
 		} else {
 			a.Dirn = MD_Stop
 			a.Behaviour = EB_Idle
 		}
-		return a
+		break
 
 	default:
 		a.Dirn = MD_Stop
 		a.Behaviour = EB_Idle
-		return a
+		break
 	}
+	// if Obstruction {
+	// 	a.Behaviour = EB_DoorOpen
+	// }
+	return a
 }
 
 func Requests_shouldStop(e Elevator) bool {

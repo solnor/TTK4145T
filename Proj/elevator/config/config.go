@@ -41,10 +41,11 @@ const (
 )
 
 type Elevator struct {
-	Floor     int
-	Dirn      MotorDirection
-	Requests  [][3]int // Soiajsojdaoisdhoasdhnasiudbaisudhaodbsaasdasd
-	Behaviour ElevatorBehaviour
+	Floor       int
+	Dirn        MotorDirection
+	Requests    [][3]int // Soiajsojdaoisdhoasdhnasiudbaisudhaodbsaasdasd
+	Behaviour   ElevatorBehaviour
+	Obstruction bool
 
 	Config Config
 }
@@ -57,11 +58,12 @@ func NewElevator() Elevator {
 
 func DupElevator(e Elevator) Elevator {
 	e2 := NewElevator()
-	e2.Floor 		= e.Floor
-	e2.Dirn 		= e.Dirn
-	e2.Behaviour 	= e.Behaviour
-	e2.Config 		= e.Config
-	for k, v := range(e.Requests){
+	e2.Floor = e.Floor
+	e2.Dirn = e.Dirn
+	e2.Behaviour = e.Behaviour
+	e2.Obstruction = e.Obstruction
+	e2.Config = e.Config
+	for k, v := range e.Requests {
 		e2.Requests[k] = v
 	}
 	return e2

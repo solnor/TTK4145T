@@ -3,6 +3,8 @@ package main
 import (
 	"elevator/config"
 	"elevator/elevio"
+
+	// . "elevator/requests"
 	"fmt"
 
 	. "elevator/fsm"
@@ -62,30 +64,19 @@ func main() {
 	for {
 		select {
 		case a := <-drv_buttons:
-			// fmt.Printf("%+v\n", a)
-			// elevio.SetButtonLamp(a.Button, a.Floor, true)
 			Fsm_onRequestButtonPress(a.Floor, a.Button)
-			// elevio.SetMotorDirection(config.MD_Up)
-
 		case a := <-drv_floors:
-			// fmt.Printf("%+v\n", a)
-			// if a == config.NumFloors-1 {
-			// 	d = config.MD_Down
-			// } else if a == 0 {
-			// 	d = config.MD_Up
-			// }
-			// elevio.SetMotorDirection(d)
 			Fsm_onFloorArrival(a)
 
 		case a := <-drv_obstr:
 			fmt.Printf("%+v\n", a)
 			if a {
-				Obstruction = true
-				PrevDir = Elevator1.Dirn
-				elevio.SetMotorDirection(config.MD_Stop)
+				Elevator1.Obstruction = true
+				// PrevDir = Elevator1.Dirn
+				// elevio.SetMotorDirection(config.MD_Stop)
 			} else {
-				Obstruction = false
-				elevio.SetMotorDirection(PrevDir)
+				Elevator1.Obstruction = false
+				// elevio.SetMotorDirection(PrevDir)
 			}
 
 		case a := <-drv_stop:
@@ -99,8 +90,4 @@ func main() {
 			Fsm_onDoorTimeout()
 		}
 	}
-}
-
-func Run() {
-
 }
