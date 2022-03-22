@@ -3,6 +3,7 @@ package config
 var NumFloors int = 4
 var N_FLOORS int = 4
 var N_BUTTONS int = 3
+var DOORTIMEOUT_S int64 = 3
 
 type MotorDirection int
 

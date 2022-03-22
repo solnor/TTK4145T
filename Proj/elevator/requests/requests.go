@@ -83,18 +83,23 @@ func (a Action) Requests_nextAction(e Elevator) Action {
 		break
 
 	case MD_Stop:
-		if Requests_above(e) == 1 {
-			a.Dirn = MD_Up
-			a.Behaviour = EB_Moving
-		} else if Requests_below(e) == 1 {
-			a.Dirn = MD_Down
-			a.Behaviour = EB_Moving
-		} else if Requests_here(e) == 1 || e.Obstruction {
+		if e.Obstruction {
 			a.Dirn = MD_Stop
 			a.Behaviour = EB_DoorOpen
 		} else {
-			a.Dirn = MD_Stop
-			a.Behaviour = EB_Idle
+			if Requests_above(e) == 1 {
+				a.Dirn = MD_Up
+				a.Behaviour = EB_Moving
+			} else if Requests_below(e) == 1 {
+				a.Dirn = MD_Down
+				a.Behaviour = EB_Moving
+			} else if Requests_here(e) == 1 {
+				a.Dirn = MD_Stop
+				a.Behaviour = EB_DoorOpen
+			} else {
+				a.Dirn = MD_Stop
+				a.Behaviour = EB_Idle
+			}
 		}
 		break
 

@@ -4,16 +4,18 @@ import (
 	"time"
 )
 
-var Timer = make(chan bool)
+// var Timer = make(chan bool)
 
 // var DoorTimer *time.Timer
-//Initialize timers
-var DoorTimer = time.NewTimer(time.Duration(1000 * time.Second))
+//Initialize timer
+var doorTimer *time.Timer
 
-func Timesda(timer *time.Timer) {
+func Observer(timerStop chan bool) {
+	doorTimer = time.NewTimer(time.Duration(1 * time.Second))
+	doorTimer.Stop()
 	for {
-		<-timer.C
-		Timer <- true
+		<-doorTimer.C
+		timerStop <- true
 	}
 }
 
@@ -23,6 +25,6 @@ func Timesda(timer *time.Timer) {
 
 // }
 
-func ResetTimer(seconds int64) {
-	DoorTimer.Reset(3 * time.Second)
+func Reset(duration_s time.Duration) {
+	doorTimer.Reset(duration_s)
 }
