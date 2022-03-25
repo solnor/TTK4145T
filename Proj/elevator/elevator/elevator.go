@@ -2,6 +2,7 @@ package elevator
 
 import (
 	"elevator/config"
+	"elevator/cost"
 	"elevator/elevio"
 	fsm "elevator/fsm"
 	"elevator/timer"
@@ -36,6 +37,7 @@ func Elevator_Run() {
 		select {
 		case a := <-drv_buttons:
 			fsm.Fsm_onRequestButtonPress(a.Floor, a.Button)
+			fmt.Printf("Cost: %d", cost.TimeToIdle(fsm.Elevator1))
 		case a := <-drv_floors:
 			fsm.Fsm_onFloorArrival(a)
 

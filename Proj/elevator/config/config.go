@@ -3,7 +3,8 @@ package config
 var NumFloors int = 4
 var N_FLOORS int = 4
 var N_BUTTONS int = 3
-var DOORTIMEOUT_S int64 = 3
+var DOOR_OPEN_TIME_S int64 = 3
+var TRAVEL_TIME_S int64 = 5
 
 type MotorDirection int
 
@@ -49,6 +50,11 @@ type Elevator struct {
 	Obstruction bool
 
 	Config Config
+}
+
+type Action struct {
+	Dirn      MotorDirection
+	Behaviour ElevatorBehaviour
 }
 
 func NewElevator() Elevator {

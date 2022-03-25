@@ -51,7 +51,7 @@ func Fsm_onRequestButtonPress(btn_floor int, btn_type config.ButtonType) {
 	case config.EB_DoorOpen:
 		if Requests_shouldClearImmediately(Elevator1, btn_floor, btn_type) {
 			//timer_start.reset(elevator.Config.DoorOpenDuration_s)
-			timer.Reset(time.Duration(config.DOORTIMEOUT_S) * time.Second)
+			timer.Reset(time.Duration(config.DOOR_OPEN_TIME_S) * time.Second)
 
 		} else {
 			Elevator1.Requests[btn_floor][btn_type] = 1
@@ -62,15 +62,15 @@ func Fsm_onRequestButtonPress(btn_floor int, btn_type config.ButtonType) {
 		break
 	case config.EB_Idle:
 		Elevator1.Requests[btn_floor][btn_type] = 1
-		var a Action
-		a = a.Requests_nextAction(Elevator1)
+		var a config.Action
+		a = Requests_nextAction(Elevator1)
 		Elevator1.Dirn = a.Dirn
 		Elevator1.Behaviour = a.Behaviour
 		switch a.Behaviour {
 		case config.EB_DoorOpen:
 			SetDoorOpenLamp(true)
-			timer.Reset(time.Duration(config.DOORTIMEOUT_S) * time.Second)
-			Elevator1 = Requests_clearAtCurrentFloor(Elevator1)
+			timer.Reset(time.Duration(config.DOOR_OPEN_TIME_S) * time.Second)
+			Elevator1 = Requests_clearAtCurrentFloor(Elevator1, Requests_onClearedRequest)
 			break
 		case config.EB_Moving:
 			// if !Obstruction
@@ -100,9 +100,9 @@ func Fsm_onFloorArrival(newFloor int) {
 			Elevator1.Dirn = config.MD_Stop
 			SetMotorDirection(Elevator1.Dirn)
 			SetDoorOpenLamp(true)
-			Elevator1 = Requests_clearAtCurrentFloor(Elevator1)
+			Elevator1 = Requests_clearAtCurrentFloor(Elevator1, Requests_onClearedRequest)
 			//timer_start(elevator.Config.DoorOpenDuration_s)
-			timer.Reset(time.Duration(config.DOORTIMEOUT_S) * time.Second)
+			timer.Reset(time.Duration(config.DOOR_OPEN_TIME_S) * time.Second)
 			setAllLights(Elevator1)
 			Elevator1.Behaviour = config.EB_DoorOpen
 		}
@@ -123,16 +123,16 @@ func Fsm_onDoorTimeout() {
 		// if Obstruction {
 		// 	break
 		// }
-		var a Action
-		a = a.Requests_nextAction(Elevator1)
+		var a config.Action
+		a = Requests_nextAction(Elevator1)
 		Elevator1.Dirn = a.Dirn
 		Elevator1.Behaviour = a.Behaviour
 		switch Elevator1.Behaviour {
 		case config.EB_DoorOpen:
 			//timer_start(elevator.Config.DoorOpenDuration_s)
-			timer.Reset(time.Duration(config.DOORTIMEOUT_S) * time.Second)
+			timer.Reset(time.Duration(config.DOOR_OPEN_TIME_S) * time.Second)
 
-			Elevator1 = Requests_clearAtCurrentFloor(Elevator1)
+			Elevator1 = Requests_clearAtCurrentFloor(Elevator1, Requests_onClearedRequest)
 			setAllLights(Elevator1)
 			break
 		case config.EB_Moving:

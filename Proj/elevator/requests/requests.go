@@ -1,16 +1,12 @@
 package requests
 
 import (
+	"elevator/config"
 	. "elevator/config"
 	. "elevator/elevio"
 	//"golang.org/x/text/cases"
 	//"fmt"
 )
-
-type Action struct {
-	Dirn      MotorDirection
-	Behaviour ElevatorBehaviour
-}
 
 var Obstruction bool = false
 
@@ -46,8 +42,8 @@ func Requests_here(e Elevator) int {
 	return 0
 }
 
-func (a Action) Requests_nextAction(e Elevator) Action {
-	//a := Action
+func Requests_nextAction(e Elevator) config.Action {
+	var a config.Action
 	switch e.Dirn {
 	case MD_Up:
 
@@ -130,7 +126,7 @@ func Requests_shouldStop(e Elevator) bool {
 		//return x
 
 	case MD_Stop:
-
+		x = true //-------------------------------------------------------Added due to cost func
 	default:
 		x = false
 	}
@@ -154,10 +150,13 @@ func Requests_shouldClearImmediately(e Elevator, btn_floor int, btn_type ButtonT
 	}
 }
 
-func Requests_clearAtCurrentFloor(e Elevator) Elevator {
+func Requests_clearAtCurrentFloor(e config.Elevator, onClearedRequest func(e config.Elevator, btn config.ButtonType, floor int)) Elevator {
 	switch e.Config.ClearRequestVariant {
 	case CV_All:
 		for btn := 0; btn < N_BUTTONS; btn++ {
+			// if onClearedRequest != nil {
+			// 	onClearedRequest(e, )
+			// }
 			e.Requests[e.Floor][btn] = 0
 		}
 
@@ -188,4 +187,13 @@ func Requests_clearAtCurrentFloor(e Elevator) Elevator {
 		break
 	}
 	return e
+}
+
+// type Request struct {
+// 	dirn  config.MotorDirection
+// 	floor int
+// }
+
+func Requests_onClearedRequest(e config.Elevator, btn config.ButtonType, floor int) {
+	e.Requests[floor][btn] = 0
 }
