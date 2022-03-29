@@ -14,7 +14,7 @@ func assignOrderByCost(elevators []*config.Node) { //orders elevio.ButtonEvent) 
 
 	for _, e := range elevators {
 		elevatorCost = cost.TimeToIdle(e)
-		if elevatorCost < minimumCost && config.Connected {
+		if elevatorCost < minimumCost && config.Available {
 			minimumCost = elevatorCost
 			calculatedElevator = e
 		}
