@@ -6,18 +6,20 @@ import (
 )
 
 //Calculation of best cost-effective elevator
+//TODO: Cab orders?
 func assignOrderByCost(elevators []*config.Node) { //orders elevio.ButtonEvent) {
-	minimumCost := 9999
-	var elevatorCost int
+	minimumCost := 100000
+	var elevatorCost int64
 	var calculatedElevator *config.Node
 
-	for _, elevator := range elevators {
-		elevatorCost = int(cost.TimeToIdle(elevator))
-		if elevatorCost < minimumCost {
+	for _, e := range elevators {
+		elevatorCost = cost.TimeToIdle(e)
+		if elevatorCost < minimumCost && config.Connected {
 			minimumCost = elevatorCost
-			calculatedElevator = elevator
+			calculatedElevator = e
 		}
-
+		//failcheck?
 	}
+	return calculatedElevator
 
 }
