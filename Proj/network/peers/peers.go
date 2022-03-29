@@ -1,6 +1,9 @@
 package peers
 
 import (
+	nodeConfig "driver/config"
+	"elevator/config"
+	"errors"
 	"fmt"
 	"net"
 	"network/conn"
@@ -86,31 +89,39 @@ func Receiver(port int, peerUpdateCh chan<- PeerUpdate) {
 	}
 }
 
-// func onNewNode(node PeerUpdate) {
-// 	newNodeIsKnown := false
-// 	for _, peer := range node.Peers {
-// 		if node.New == node.Peers {
-// 			newNodeIsKnown = true
-// 		}
-// 	}
-// 	if newNodeIsKnown {
-// 		*e, error  = getNodeWithId(node.New)
-// 		if error != nil {
-// 			fmt.Printf("Error: Could not find elevator with id %s", node.New)
-// 			// In case ID is known, but no elevator is associated with the id: Create new node with ID
-// 			e = createNewNode(node.New)
-// 			knownNodes = append(knownNodes, e)
-// 		}
-// 		// e.undefined = setNodeDataUndefined(e)
-// 		e.connected = true
-// 		e.defined = true
-// 	} else {
-// 		e = createNewNode(node.New)
-// 		knownNodes = append(knownNodes, e)
-// 	}
-// 	// if node.New not in node.Peers {
+func onNewNode(node PeerUpdate) {
+	newNodeIsKnown := false
+	for _, peer := range node.Peers {
+		if node.New == peer {
+			newNodeIsKnown = true
+		}
+	}
+	if newNodeIsKnown {
+		n, err := getNodeWithId(node.New)
+		if err != nil {
+			fmt.Printf("Error: Could not find elevator with id %s", node.New)
+			// In case ID is known, but no elevator is associated with the id: Create new node with ID
+			n := createNewNode(node.New)
+			nodeConfig.KnownNodes = append(nodeConfig.KnownNodes, e)
+		}
+		// e.undefined = setNodeDataUndefined(e)
+		n.Available = true
+	} else {
+		e := createNewNode(node.New)
+		nodeConfig.knownNodes = append(nodeConfig.KnownNodes, e)
+	}
+	// if node.New not in node.Peers {
 
-// 	// } else {
+	// } else {
 
-// 	// }
-// }
+	// }
+}
+
+func getNodeWithId(id string) (*config.Elevator, error) {
+	for _, node := range nodeConfig.KnownNodes {
+		if id == node.Id {
+			return &node.Elevator, nil
+		}
+	}
+	return nil, errors.New("Could not find node")
+}

@@ -32,8 +32,7 @@ func Fsm_init() {
 var PrevDir config.MotorDirection
 
 func GetFunctionname(i interface{}) string {
-	return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
-}
+	return runtime.Funcnode
 
 func setAllLights(es config.Elevator) {
 	for floor := 0; floor < config.N_FLOORS; floor++ {
