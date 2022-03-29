@@ -151,9 +151,6 @@ func Elevator_Run() {
 // 				}
 // 				// fmt.Printf(es.requests[f][btn] ? "|  #  " : "|  -  ");
 // 			}
-// 		}
-// 		fmt.Printf("|\n")
-// 	}
 // 	fmt.Printf("  +--------------------+\n")
 // }
 

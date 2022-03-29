@@ -18,6 +18,13 @@ var Elevator1 config.Elevator
 
 func Fsm_init() {
 	Elevator1 = config.NewElevator()
+	Elevator1.Floor = -1
+	Elevator1.Dirn = config.MD_Stop
+	Elevator1.Behaviour = config.EB_Idle
+	Elevator1.Obstruction = false
+
+	Elevator1.Config.ClearRequestVariant = config.CV_All
+	Elevator1.Config.DoorOpenDuration_s = 3
 }
 
 // var DoorTimer = time.NewTimer(time.Duration(3 * time.Second))

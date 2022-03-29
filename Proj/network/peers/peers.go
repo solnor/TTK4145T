@@ -1,9 +1,9 @@
 package peers
 
 import (
-	"Network-go/network/conn"
 	"fmt"
 	"net"
+	"network/conn"
 	"sort"
 	"time"
 )
@@ -85,3 +85,32 @@ func Receiver(port int, peerUpdateCh chan<- PeerUpdate) {
 		}
 	}
 }
+
+// func onNewNode(node PeerUpdate) {
+// 	newNodeIsKnown := false
+// 	for _, peer := range node.Peers {
+// 		if node.New == node.Peers {
+// 			newNodeIsKnown = true
+// 		}
+// 	}
+// 	if newNodeIsKnown {
+// 		*e, error  = getNodeWithId(node.New)
+// 		if error != nil {
+// 			fmt.Printf("Error: Could not find elevator with id %s", node.New)
+// 			// In case ID is known, but no elevator is associated with the id: Create new node with ID
+// 			e = createNewNode(node.New)
+// 			knownNodes = append(knownNodes, e)
+// 		}
+// 		// e.undefined = setNodeDataUndefined(e)
+// 		e.connected = true
+// 		e.defined = true
+// 	} else {
+// 		e = createNewNode(node.New)
+// 		knownNodes = append(knownNodes, e)
+// 	}
+// 	// if node.New not in node.Peers {
+
+// 	// } else {
+
+// 	// }
+// }

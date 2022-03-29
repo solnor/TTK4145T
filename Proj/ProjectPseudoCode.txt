@@ -46,6 +46,27 @@ func onLostNode(node PeerUpdate) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 I'm thinking this should be incorporated into the peers.go file, and that the file perhaps should be renamed - maybe, maybe not 
+
+type Elevator struct {
+	Floor       int
+	Dirn        MotorDirection
+	Requests    [][3]int // Soiajsojdaoisdhoasdhnasiudbaisudhaodbsaasdasd
+	Behaviour   ElevatorBehaviour
+	Obstruction bool
+
+	Config Config
+}
+
+type elevatorData struct {
+	id        String
+	elevator  Elevator
+	defined   bool
+	connected bool
+	What else???
+}
+
+When Obstruction has been on for a while, orders should be reassigned
+
 //Routine
 func distributeInformation() {
 	// InformationTx is a very vague name

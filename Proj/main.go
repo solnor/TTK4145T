@@ -1,9 +1,9 @@
 package main
 
 import (
+	"driver/driver"
 	"fmt"
 	// "elevator/config"
-	elev "elevator/elevator"
 	// "elevator/elevio"
 	// // . "elevator/requests"
 	// fsm "elevator/fsm"
@@ -13,7 +13,8 @@ import (
 
 func main() {
 	fmt.Printf("Startup\n")
-	elev.Elevator_Run()
+	// driver.Drive()
+	driver.Elevator_Run()
 	// elevio.Init("localhost:15657", config.NumFloors)
 	// fsm.Fsm_init()
 
