@@ -2,8 +2,10 @@ package config
 
 import "elevator/config"
 
-type elevatorData struct {
-	id        string
-	connected bool
-	elevator  config.Elevator
+type Node struct {
+	Id        string
+	Connected bool
+	Elevator  config.Elevator
 }
+
+var KnownNodes = make([]Node, 0)
